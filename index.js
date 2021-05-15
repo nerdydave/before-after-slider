@@ -23,7 +23,7 @@ window.addEventListener('touchmove', (e) => {
     if (yCor <= rect.bottom && yCor >= elYPos && xCor <= rect.right && xCor >= elXPos) {
         changePosition(xCor);
     }
-})
+}, {passive: true})
 
 function changePosition(coordinates) {
     let percentage = Math.round(100 / (rect.width) * (coordinates - rect.left));
