@@ -17,11 +17,11 @@ window.addEventListener('mousemove', (e) => {
 })
 
 window.addEventListener('touchmove', (e) => {
-    const xCor = e.clientX;
-    const yCor = e.clientY;
+    const xCor = e.touches[0].clientX;
+    const yCor = e.touches[0].clientY;
 
     if (yCor <= rect.bottom && yCor >= elYPos && xCor <= rect.right && xCor >= elXPos) {
-            changePosition(xCor);
+        changePosition(xCor);
     }
 })
 
