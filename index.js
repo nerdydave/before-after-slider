@@ -7,23 +7,44 @@ let rect = '';
 let elXPos = '';
 let elYPos = '';
 
+const throttle = (func, limit) => {
+    let lastFunc
+    let lastRan
+    return function() {
+        const context = this
+        const args = arguments
+        if (!lastRan) {
+            func.apply(context, args)
+            lastRan = Date.now()
+        } else {
+            clearTimeout(lastFunc)
+            lastFunc = setTimeout(function() {
+                if ((Date.now() - lastRan) >= limit) {
+                    func.apply(context, args)
+                    lastRan = Date.now()
+                }
+            }, limit - (Date.now() - lastRan))
+        }
+    }
+}
+
 window.addEventListener('mousemove', (e) => {
     const xCor = e.clientX;
     const yCor = e.clientY;
 
     if (yCor <= rect.bottom && yCor >= elYPos && xCor <= rect.right && xCor >= elXPos) {
-            changePosition(xCor);
+        changePosition(xCor);
     }
 })
 
-window.addEventListener('touchmove', (e) => {
+window.addEventListener('touchmove', throttle(function(e) {
     const xCor = e.touches[0].clientX;
     const yCor = e.touches[0].clientY;
 
     if (yCor <= rect.bottom && yCor >= elYPos && xCor <= rect.right && xCor >= elXPos) {
         changePosition(xCor);
     }
-}, {passive: true})
+}, 5));
 
 function changePosition(coordinates) {
     let percentage = Math.round(100 / (rect.width) * (coordinates - rect.left));
