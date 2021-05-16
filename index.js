@@ -44,6 +44,7 @@ window.addEventListener('touchmove', throttle(function(e) {
     if (yCor <= rect.bottom && yCor >= elYPos && xCor <= rect.right && xCor >= elXPos) {
         changePosition(xCor);
     }
+    e.preventDefault()
 }, 5));
 
 function changePosition(coordinates) {
